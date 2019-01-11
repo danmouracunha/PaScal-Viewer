@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+dj-database-url = "*"
+gunicorn = "*"
+"psycopg2" = "*"
+whitenoise = "*"
+matplotlib = "*"
+bokeh = "*"
+colour = "*"
+simplejson = "*"
+pandas = "*"
+mpltools = "*"
+seaborn = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"

@@ -1,0 +1,266 @@
+<!DOCTYPE html> {% extends "Private/_layout.html"%} {% load staticfiles %} {% block body_block %}
+<script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+<script src="{% static 'css/bokeh-0.13.0.min.js' %}"></script>
+<link href="{% static 'css/bokeh-0.13.0.min.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css">
+{% if the_div == null %}
+<div>
+    <h3>Selecione a saída do programa</h3>
+</div>
+<form method="post" action="{% url 'private' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <!-- <div class="col-12">
+        <input type="file" name="files" class="custom-file-input" id="customFileLang" aria-describedby="fileHelp">
+        <label class="custom-file-label" for="customFileLang">Selecione o arquivo</label>
+    </div> -->
+    <div class="form-group">
+    <label for="exampleInputFile">File input</label>
+    <input type="file" name="files" class="form-control-file btn btn-primary" id="customFileLang" aria-describedby="fileHelp">
+    <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+    </div>
+    <button class="btn btn-primary mt-3" type="submit">Submeter</button>
+</form>
+{% endif %}
+{% if the_div != null %}
+<div class="col-12">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <div id="mySidenav" class="sidenav col-12">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          {% comment %} <div class="col-12">
+            <a href="{% url "private" %}" class="btn btn-block btn-lg btn-primary">Upload new archive</a>
+          </div> {% endcomment %}
+          <div class="col-12 flex-container">
+          {{ the_div_side|safe }}
+          </div>
+        </div>
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Bootstrap Sidebar</h3>
+            </div>
+        </nav>
+        <div>
+            <span style="font-size:30px; cursor:pointer" onclick="openNav()">&#9776; Inspect</span>
+        
+            {% comment %} <span style="font-size:30px;cursor:pointer" onclick="openNavTree()">&#9776; Inspect Tree</span> {% endcomment %}
+        </div>
+        <div>
+            <a href="{% url 'privateNav' 0 %}">Back to full program</a>        
+            {% comment %} <span style="font-size:30px;cursor:pointer" onclick="openNavTree()">&#9776; Inspect Tree</span> {% endcomment %}
+        </div>
+        
+        <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "30%";
+        }
+        
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+        !function ($) {
+    
+            // Le left-menu sign
+            /* for older jquery version
+            $('#left ul.nav li.parent > a > span.sign').click(function () {
+                $(this).find('i:first').toggleClass("icon-minus");
+            }); */
+            
+            $(document).on("click","#left ul.nav li.parent > a > span.sign", function(){          
+                $(this).find('i:first').toggleClass("icon-minus");      
+            }); 
+            
+            // Open Le current menu
+            $("#left ul.nav li.parent.active > a > span.sign").find('i:first').addClass("icon-minus");
+            $("#left ul.nav li.current").parents('ul.children').addClass("in");
+        
+        }(window.jQuery);
+        </script>
+        <style>
+            /* MENU-LEFT
+-------------------------- */
+/* layout */
+#left ul.nav {
+    margin-bottom: 2px;
+    font-size: 12px; /* to change font-size, please change instead .lbl */
+}
+#left ul.nav ul,
+#left ul.nav ul li {
+    list-style: none!important;
+    list-style-type: none!important;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+#left ul.nav ul {
+    padding-left: 0;
+    width: auto;
+}
+#left ul.nav ul.children {
+    padding-left: 12px;
+    width: auto;
+}
+#left ul.nav ul.children li{
+    margin-left: 0px;
+}
+#left ul.nav li a:hover {
+    text-decoration: none;
+}
+
+#left ul.nav li a:hover .lbl {
+    color: #999!important;
+}
+
+#left ul.nav li.current>a .lbl {
+    background-color: #999;
+    color: #fff!important;
+}
+
+/* parent item */
+#left ul.nav li.parent a {
+    padding: 0px;
+    color: #ccc;
+}
+#left ul.nav>li.parent>a {
+    border: solid 1px #999;
+    text-transform: uppercase;
+}    
+#left ul.nav li.parent a:hover {
+    background-color: #fff;
+    -webkit-box-shadow:inset 0 3px 8px rgba(0,0,0,0.125);
+    -moz-box-shadow:inset 0 3px 8px rgba(0,0,0,0.125);
+    box-shadow:inset 0 3px 8px rgba(0,0,0,0.125);    
+}
+
+/* link tag (a)*/
+#left ul.nav li.parent ul li a {
+    color: #222;
+    border: none;
+    display:block;
+    padding-left: 5px;    
+}
+
+#left ul.nav li.parent ul li a:hover {
+    background-color: #fff;
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
+    box-shadow:none;  
+}
+
+/* sign for parent item */
+#left ul.nav li .sign {
+    display: inline-block;
+    width: 14px;
+    padding: 5px 8px;
+    background-color: transparent;
+    color: #fff;
+}
+#left ul.nav li.parent>a>.sign{
+    margin-left: 0px;
+    background-color: #999;
+}
+
+/* label */
+#left ul.nav li .lbl {
+    padding: 5px 12px;
+    display: inline-block;
+}
+#left ul.nav li.current>a>.lbl {
+    color: #fff;
+}
+#left ul.nav  li a .lbl{
+    font-size: 12px;
+}
+
+/* THEMATIQUE
+------------------------- */
+/* theme 1 */
+#left ul.nav>li.item-1.parent>a {
+    border: solid 1px #ff6307;
+}
+#left ul.nav>li.item-1.parent>a>.sign,
+#left ul.nav>li.item-1 li.parent>a>.sign{
+    margin-left: 0px;
+    background-color: #ff6307;
+}
+#left ul.nav>li.item-1 .lbl {
+    color: #ff6307;
+}
+#left ul.nav>li.item-1 li.current>a .lbl {
+    background-color: #ff6307;
+    color: #fff!important;
+}
+
+/* theme 2 */
+#left ul.nav>li.item-8.parent>a {
+    border: solid 1px #51c3eb;
+}
+#left ul.nav>li.item-8.parent>a>.sign,
+#left ul.nav>li.item-8 li.parent>a>.sign{
+    margin-left: 0px;
+    background-color: #51c3eb;
+}
+#left ul.nav>li.item-8 .lbl {
+    color: #51c3eb;
+}
+#left ul.nav>li.item-8 li.current>a .lbl {
+    background-color: #51c3eb;
+    color: #fff!important;
+}
+
+/* theme 3 */
+#left ul.nav>li.item-15.parent>a {
+    border: solid 1px #94cf00;
+}
+#left ul.nav>li.item-15.parent>a>.sign,
+#left ul.nav>li.item-15 li.parent>a>.sign{
+    margin-left: 0px;
+    background-color: #94cf00;
+}
+#left ul.nav>li.item-15 .lbl {
+    color: #94cf00;
+}
+#left ul.nav>li.item-15 li.current>a .lbl {
+    background-color: #94cf00;
+    color: #fff!important;
+}
+
+/* theme 4 */
+#left ul.nav>li.item-22.parent>a {
+    border: solid 1px #ef409c;
+}
+#left ul.nav>li.item-22.parent>a>.sign,
+#left ul.nav>li.item-22 li.parent>a>.sign{
+    margin-left: 0px;
+    background-color: #ef409c;
+}
+#left ul.nav>li.item-22 .lbl {
+    color: #ef409c;
+}
+#left ul.nav>li.item-22 li.current>a .lbl {
+    background-color: #ef409c;
+    color: #fff!important;
+}
+.bk-root{
+    display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    
+    justify-content: center;
+    text-align: center
+  }
+        </style>
+        <button type="button" id="sidebarCollapse" class="navbar-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+{{ the_div|safe }}
+{{ the_script|safe }}
+</div>
+{% endif %}
+{% endblock %}

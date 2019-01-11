@@ -1,1 +1,2 @@
-# PaScal-Viewer
+Sphinx
+/usr/bin/python3.6 
